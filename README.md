@@ -4,9 +4,9 @@ Version 4 of the copypaste tool for personal notes, etc.
 
 ## Stack
 
-MongoDB
-Express.js
-Node.js
+- MongoDB
+- Express.js
+- Node.js
 
 ## Install
 
@@ -19,5 +19,4 @@ Node.js
 
 ## Tests
 
-Mocha
-Chai
+For testing, Mocha and Chai are used. You can run the tests with `npm test`

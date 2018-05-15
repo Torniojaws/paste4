@@ -1,0 +1,28 @@
+{
+  "name": "paste4",
+  "version": "0.0.1",
+  "description": "Paste tool for personal notes",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Torniojaws/paste4.git"
+  },
+  "keywords": [
+    "paste",
+    "mongodb",
+    "express",
+    "node"
+  ],
+  "author": "Juha Untinen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Torniojaws/paste4/issues"
+  },
+  "homepage": "https://github.com/Torniojaws/paste4#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

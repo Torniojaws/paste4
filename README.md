@@ -8,6 +8,15 @@ MongoDB
 Express.js
 Node.js
 
+## Install
+
+1. `git clone https://github.com/Torniojaws/paste4.git`
+1. `sudo apt install npm` (if needed)
+1. `cd paste4/`
+1. `npm install`
+1. `node index.js`
+1. Browse to: http://localhost:3000/
+
 ## Tests
 
 Mocha

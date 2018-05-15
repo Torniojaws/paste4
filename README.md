@@ -1,2 +1,14 @@
-# paste4
-Version 4 of a copypaste tool
+# Paste 4.0
+
+Version 4 of the copypaste tool for personal notes, etc.
+
+## Stack
+
+MongoDB
+Express.js
+Node.js
+
+## Tests
+
+Mocha
+Chai

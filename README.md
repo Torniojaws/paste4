@@ -14,7 +14,7 @@ Version 4 of the copypaste tool for personal notes, etc.
 1. `sudo apt install npm` (if needed)
 1. `cd paste4/`
 1. `npm install`
-1. `node index.js`
+1. `npm start`
 1. Browse to: http://localhost:3000/
 
 ## Tests

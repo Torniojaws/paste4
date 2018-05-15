@@ -1,6 +1,7 @@
-const express = require('express')
-const app = express()
+const app = require('express')();
+const routes = require('./routes');
 
-app.get('/', (req, res) => res.send('Hello there'))
+// Connect all routes
+app.use('/', routes);
 
-module.exports = app.listen(3000, () => console.log('Listening on port 3000'))
+module.exports = app.listen(3000, () => console.log('Listening on port 3000'));

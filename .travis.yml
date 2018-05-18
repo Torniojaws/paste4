@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "iojs"
-  - "7"
+  - "6"
 services:
   - mongodb
+cache:
+  directories:
+    - "node_modules"

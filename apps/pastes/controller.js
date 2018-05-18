@@ -13,6 +13,7 @@ function getPastes(req, res) {
 // Get a specific paste
 function getPasteById(req, res) {
   Paste.findById(req.params.id, (err, paste) => {
+    if (!paste) res.status(404);
     if (err) res.send(err);
     res.json(paste);
   });

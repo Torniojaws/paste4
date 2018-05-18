@@ -19,6 +19,7 @@ describe('GET /pastes', () => {
       done();
     });
   });
+
   it('should return an empty result when no data exists', (done) => {
     chai.request(server)
       .get('/pastes')
@@ -28,18 +29,7 @@ describe('GET /pastes', () => {
         done();
       });
   });
-});
 
-/**
- * Once we have data, it should return all of them (= 2)
- */
-describe('GET /pastes', () => {
-  // Make sure we have an empty dataset in the test DB
-  beforeEach((done) => {
-    Paste.remove({}, (err) => {
-      done();
-    });
-  });
   it('should return results when data exists', (done) => {
     // Add two entries to Pastes
     const paste1 = new Paste({ message: "Test 1", tags: ["unit", "test"] });

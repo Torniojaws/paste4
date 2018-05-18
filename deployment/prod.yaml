@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    # MongoDB
+    - include: tasks/mongodb.yaml
+    # Node.js
+    - include: tasks/node.yaml
+    # And the project npm dependencies
+    - include: tasks/project.yaml
+    # Start the services, eg. MongoDB
+    - include: tasks/start.yaml

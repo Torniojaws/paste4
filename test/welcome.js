@@ -23,7 +23,7 @@ describe('GET index', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body).to.have.key('message');
-        expect(res.body.message).to.eql('It is alive!');
+        expect(res.body.message).to.eql('Hello there');
         done();
       });
   });

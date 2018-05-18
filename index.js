@@ -1,54 +1,20 @@
 const app = require('express')();
+const bodyParser = require('body-parser');
 const routes = require('./routes');
-// Quick test
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 
-const url = 'mongodb://localhost:27017';
-const dbName = 'myproject';
+// MongoDB config
+const config = require('config');
+const mongoose = require('mongoose');
 
-// Connect all routes
+// Connect to MongoDB
+mongoose.connect(config.DBHost);
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+
 app.use('/', routes);
-
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, client) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  const db = client.db(dbName);
-
-  insertDocuments(db, function() {
-    findDocuments(db, function() {
-      client.close();
-    });
-  });
-});
-
-const insertDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Insert some documents
-  collection.insertMany([
-    {a : 1}, {a : 2}, {a : 3}
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3, result.result.n);
-    assert.equal(3, result.ops.length);
-    console.log("Inserted 3 documents into the collection");
-    callback(result);
-  });
-}
-
-const findDocuments = function(db, callback) {
-  // Get the documents collection
-  const collection = db.collection('documents');
-  // Find some documents
-  collection.find({}).toArray(function(err, docs) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(docs)
-    callback(docs);
-  });
-}
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: 'application/json' }));
 
 module.exports = app.listen(3000, () => console.log('Listening on port 3000'));

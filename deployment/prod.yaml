@@ -1,12 +1,10 @@
 - hosts: all
   tasks:
-    # Install the basics, like git and npm
-    - include: tasks/basics.yaml
     # MongoDB
     - include: tasks/mongodb.yaml
     # Node.js
     - include: tasks/node.yaml
-    # npm
-    - include: tasks/npm.yaml
     # And the project npm dependencies
     - include: tasks/project.yaml
+    # Start the services, eg. MongoDB
+    - include: tasks/start.yaml

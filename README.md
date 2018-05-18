@@ -15,7 +15,8 @@ Version 4 of the copypaste tool for personal notes, etc.
 
 ## Install
 
-1. Install Ansible, if not yet installed: `sudo apt install ansible`
+1. Install Ansible, if not yet installed:
+  `sudo add-apt-repository ppa:ansible/ansible && sudo apt update && sudo apt install ansible`
 1. `git clone https://github.com/Torniojaws/paste4.git`
 1. `cd paste4/`
 1. Run `make` to deploy the project (using Ansible, see: [deployment](deployment/prod.yaml))
@@ -25,3 +26,4 @@ Version 4 of the copypaste tool for personal notes, etc.
 ## Tests
 
 For testing, Mocha and Chai are used. You can run the tests with `npm test`
+If you want to check the DB manually, use: `mongo --host 127.0.0.1:27017`

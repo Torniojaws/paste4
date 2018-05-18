@@ -1,3 +1,7 @@
+[![GitHub version](https://badge.fury.io/gh/Torniojaws%2Fpaste4.svg)](https://badge.fury.io/gh/Torniojaws%2Fpaste4)
+[![Build Status](https://travis-ci.org/Torniojaws/paste4.svg?branch=master)](https://travis-ci.org/Torniojaws/paste4)
+[![Coverage Status](https://coveralls.io/repos/github/Torniojaws/paste4/badge.svg?branch=master)](https://coveralls.io/github/Torniojaws/paste4?branch=master)
+
 # Paste 4.0
 
 Version 4 of the copypaste tool for personal notes, etc.

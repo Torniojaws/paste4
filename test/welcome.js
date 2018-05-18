@@ -15,7 +15,7 @@ chai.use(chaiHttp);
  * If the content-type is text/plain, the data is in res.text
  * Otherwise it is in res.body
  */
-describe('GET index', () => {
+describe('GET /', () => {
   it('should get the welcome message', (done) => {
     chai.request(server)
       .get('/')

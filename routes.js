@@ -7,8 +7,8 @@ app.get('/', (req, res) => res.status(200).json({ message: "Hello there" }));
 
 // Pastes
 app.route('/pastes')
-  .get(pastes.getPastes);
-  // .post(pastes.add)
+  .get(pastes.getPastes)
+  .post(pastes.addPaste);
 app.route('/pastes/:id')
   .get(pastes.getPasteById);
   // .put(pastes.edit)

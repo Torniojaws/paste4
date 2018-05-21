@@ -5,8 +5,9 @@ let Paste = require('./model');
 function getPastes(req, res) {
   let query = Paste.find({});
   query.exec((err, pastes) => {
-    if (err) res.send(err);
-    res.json(pastes);
+    const queryFailed = (err)
+      ? res.send(err)
+      : res.json(pastes);
   });
 }
 
@@ -14,13 +15,21 @@ function getPastes(req, res) {
 function getPasteById(req, res) {
   Paste.findById(req.params.id, (err, paste) => {
     if (!paste) res.status(404);
-    if (err) res.send(err);
-    res.json(paste);
+    const queryFailed = (err)
+      ? res.send(err)
+      : res.json(paste);
   });
 }
 
 // Add a paste
-console.log("Implement POST /pastes here");
+function addPaste(req, res) {
+  let item = new Paste(req.body);
+  item.save((err, paste) => {
+    const saveFailed = (err)
+      ? res.status(400).json({ result: "Missing 'message' from payload" })
+      : res.json({ result: "New paste added", paste });
+  });
+}
 
 // Edit a paste
 console.log("Implement PUT /pastes/:id here");
@@ -28,4 +37,8 @@ console.log("Implement PUT /pastes/:id here");
 // Delete a paste
 console.log("Implement DELETE /pastes/:id here");
 
-module.exports = { getPastes, getPasteById }
+module.exports = {
+  getPastes,
+  getPasteById,
+  addPaste,
+}

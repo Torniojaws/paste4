@@ -40,46 +40,4 @@ describe('PUT /pastes/:id', () => {
       })
   });
 
-  it('should reject an edit without a message', (done) => {
-    const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
-    pasteItem.save()
-      .then((paste) => {
-        const updated = {
-          tags: ["Testing", "Posting"]
-        };
-        chai.request(server)
-          .put('/pastes/' + paste._id)
-          .send(updated)
-          .end((err, res) => {
-            expect(res).to.have.status(400);
-            expect(res.body).to.have.property('result').eql('Missing \'message\' from payload');
-            done();
-          });
-      })
-      .catch((err) => {
-        console.error("Something went very wrong");
-      })
-  });
-
-  it('should return 404 for an invalid paste ID', (done) => {
-    const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
-    pasteItem.save()
-      .then((paste) => {
-        const updated = {
-          message: "Testing",
-          tags: ["Testing", "Posting"]
-        };
-        chai.request(server)
-          .put('/pastes/doesnotexist')
-          .send(updated)
-          .end((err, res) => {
-            expect(res).to.have.status(404);
-            expect(res.body).to.have.property('result').eql('Paste not found');
-            done();
-          });
-      })
-      .catch((err) => {
-        console.error("Something went very wrong");
-      })
-  });
 });

@@ -9,10 +9,7 @@ chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
 
-/**
- * With no values in the DB, we expect an empty result
- */
-describe('GET /pastes/:id', () => {
+describe('PUT /pastes/:id', () => {
   // Make sure we have an empty dataset in the test DB
   beforeEach((done) => {
     Paste.remove({}, (err) => {
@@ -20,32 +17,27 @@ describe('GET /pastes/:id', () => {
     });
   });
 
-  it('should return 404 when ID does not exist', (done) => {
-    chai.request(server)
-      .get('/pastes/doesnotexist')
-      .end((err, res) => {
-        expect(res).to.have.status(404);
-        done();
-      });
-  });
-
-  it('should return the paste when data exists', (done) => {
+  it('should update a valid paste', (done) => {
     const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
     pasteItem.save()
-      // The save() in mongoose is an asynchronous operation, so wait for it to finish
       .then((paste) => {
+        const updated = {
+          message: "It works",
+          tags: ["Testing", "Updating"]
+        };
         chai.request(server)
-          .get('/pastes/' + paste._id)
+          .put('/pastes/' + paste._id)
+          .send(updated)
           .end((err, res) => {
+            expect(err).to.be.null;
             expect(res).to.have.status(200);
-            expect(res.body.message).to.eql('Test 1');
-            expect(res.body.tags.length).to.eql(2);
-            expect(res.body.createdAt).to.be.a.dateString();
+            expect(res.body).to.have.property('result').eql('Paste updated');
             done();
           });
       })
       .catch((err) => {
         console.error("Something went very wrong");
-      });
+      })
   });
+
 });

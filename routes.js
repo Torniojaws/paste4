@@ -10,8 +10,8 @@ app.route('/pastes')
   .get(pastes.getPastes)
   .post(pastes.addPaste);
 app.route('/pastes/:id')
-  .get(pastes.getPasteById);
-  // .put(pastes.edit)
+  .get(pastes.getPasteById)
+  .put(pastes.editPaste);
   // .delete(pastes.delete)
 
 module.exports = app;

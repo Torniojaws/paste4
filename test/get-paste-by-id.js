@@ -30,7 +30,6 @@ describe('GET /pastes/:id', () => {
   });
 
   it('should return the paste when data exists', (done) => {
-    let pasteId = 0;
     const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
     pasteItem.save()
       // The save() in mongoose is an asynchronous operation, so wait for it to finish

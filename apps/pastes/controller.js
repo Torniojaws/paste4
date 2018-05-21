@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Paste = require('./model');
 
 // Get all pastes from the DB
-function getPastes(req, res) {
+const getPastes = (req, res) => {
   let query = Paste.find({});
   query.exec((err, pastes) => {
     const queryFailed = (err)
@@ -12,7 +12,7 @@ function getPastes(req, res) {
 }
 
 // Get a specific paste
-function getPasteById(req, res) {
+const getPasteById = (req, res) => {
   Paste.findById(req.params.id, (err, paste) => {
     if (!paste) res.status(404);
     const queryFailed = (err)
@@ -22,17 +22,23 @@ function getPasteById(req, res) {
 }
 
 // Add a paste
-function addPaste(req, res) {
+const addPaste = (req, res) => {
   let item = new Paste(req.body);
   item.save((err, paste) => {
     const saveFailed = (err)
-      ? res.status(400).json({ result: "Missing 'message' from payload" })
-      : res.json({ result: "New paste added", paste });
+      ? res.status(400).json({ result: 'Missing \'message\' from payload' })
+      : res.json({ result: 'New paste added', paste });
   });
 }
 
 // Edit a paste
-console.log("Implement PUT /pastes/:id here");
+const editPaste = (req, res) => {
+  Paste.findById({ _id: req.params.id}, (err, paste) => {
+    Object.assign(paste, req.body).save((err, paste) => {
+      res.json({ result: 'Paste updated', paste });
+    });
+  });
+}
 
 // Delete a paste
 console.log("Implement DELETE /pastes/:id here");
@@ -41,4 +47,5 @@ module.exports = {
   getPastes,
   getPasteById,
   addPaste,
+  editPaste,
 }

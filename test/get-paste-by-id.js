@@ -70,7 +70,8 @@ describe('GET /pastes/:id', () => {
         expect(pastes.getPasteById.bind(pastes, req, res)).to.throw('Error');
       })
       .catch((err) => {
-        console.log('Boom');
+        console.log(err);
+        expect(err).to.not.be.null;
       });
     done();
   });

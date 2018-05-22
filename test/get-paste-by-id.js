@@ -10,6 +10,7 @@ chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
 let sinon = require('sinon');
+let httpMocks = require('node-mocks-http');
 
 describe('GET /pastes/:id', () => {
   // Make sure we have an empty dataset in the test DB
@@ -48,9 +49,29 @@ describe('GET /pastes/:id', () => {
       });
   });
 
-  it('should handle an error in mongoose query', (done) => {
-    sinon.stub(mongoose.Model, 'findById').yields({ name: 'MongoError'}, null);
+  it('should handle an error in Request parameters', (done) => {
     expect(pastes.getPasteById.bind(pastes, {})).to.throw('Cannot read property \'id\' of undefined');
+    done();
+  });
+
+  it('should handle an error during Mongoose query', (done) => {
+    const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
+    pasteItem.save()
+      .then((paste) => {
+        let req = httpMocks.createRequest({
+          method: 'GET',
+          url: '/pastes/' + paste._id,
+          params: {
+            id: paste._id
+          }
+        });
+        let res = httpMocks.createResponse();
+        sinon.stub(mongoose.Model, 'findById').yields({ name: 'Error' });
+        expect(pastes.getPasteById.bind(pastes, req, res)).to.throw('Error');
+      })
+      .catch((err) => {
+        console.log('Boom');
+      });
     done();
   });
 });

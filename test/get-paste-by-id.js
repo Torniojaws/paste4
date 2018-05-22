@@ -50,7 +50,8 @@ describe('GET /pastes/:id', () => {
   });
 
   it('should handle an error in Request parameters', (done) => {
-    expect(pastes.getPasteById.bind(pastes, {})).to.throw('Cannot read property \'id\' of undefined');
+    const invalid = { error: 'I have no ID property' };
+    expect(pastes.getPasteById.bind(pastes, invalid)).to.throw('Cannot read property \'id\' of undefined');
     done();
   });
 
@@ -70,8 +71,7 @@ describe('GET /pastes/:id', () => {
         expect(pastes.getPasteById.bind(pastes, req, res)).to.throw('Error');
       })
       .catch((err) => {
-        console.log(err);
-        expect(err).to.not.be.null;
+        expect(err).to.have.property('message').eql('expected [Function: bound getPasteById] to throw an error');
       });
     done();
   });

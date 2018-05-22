@@ -3,15 +3,13 @@ process.env.NODE_ENV = 'test';
 let mongoose = require('mongoose');
 let Paste = require('../apps/pastes/model');
 let server = require('../index');
+let pastes = require('../apps/pastes/controller');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
 
-/**
- * With no values in the DB, we expect an empty result
- */
 describe('GET /pastes/:id', () => {
   // Make sure we have an empty dataset in the test DB
   beforeEach((done) => {
@@ -47,5 +45,10 @@ describe('GET /pastes/:id', () => {
       .catch((err) => {
         console.error("Something went very wrong");
       });
+  });
+
+  it('should handle an error in mongoose query', (done) => {
+    expect(pastes.getPasteById.bind(pastes, {})).to.throw('Cannot read property \'id\' of undefined');
+    done();
   });
 });

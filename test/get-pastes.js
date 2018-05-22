@@ -3,11 +3,13 @@ process.env.NODE_ENV = 'test';
 let mongoose = require('mongoose');
 let Paste = require('../apps/pastes/model');
 let server = require('../index');
+let pastes = require('../apps/pastes/controller');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
+let sinon = require('sinon');
 
 /**
  * With no values in the DB, we expect an empty result
@@ -45,6 +47,12 @@ describe('GET /pastes', () => {
         expect(res.body[0].createdAt).to.be.a.dateString();
         done();
       });
+  });
+
+  it('should handle an error in mongoose', (done) => {
+    sinon.stub(mongoose.Query.prototype, 'exec').yields({ name: 'MongoError'}, null);
+    expect(pastes.getPastes.bind(pastes, 'foo')).to.throw('Cannot read property \'send\' of undefined');
+    done();
   });
 
   after(done => {

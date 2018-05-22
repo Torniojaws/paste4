@@ -3,15 +3,15 @@ process.env.NODE_ENV = 'test';
 let mongoose = require('mongoose');
 let Paste = require('../apps/pastes/model');
 let server = require('../index');
+let pastes = require('../apps/pastes/controller');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
+let sinon = require('sinon');
+let httpMocks = require('node-mocks-http');
 
-/**
- * With no values in the DB, we expect an empty result
- */
 describe('GET /pastes/:id', () => {
   // Make sure we have an empty dataset in the test DB
   beforeEach((done) => {
@@ -47,5 +47,32 @@ describe('GET /pastes/:id', () => {
       .catch((err) => {
         console.error("Something went very wrong");
       });
+  });
+
+  it('should handle an error in Request parameters', (done) => {
+    const invalid = { error: 'I have no ID property' };
+    expect(pastes.getPasteById.bind(pastes, invalid)).to.throw('Cannot read property \'id\' of undefined');
+    done();
+  });
+
+  it('should handle an error during Mongoose query', (done) => {
+    const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
+    pasteItem.save()
+      .then((paste) => {
+        let req = httpMocks.createRequest({
+          method: 'GET',
+          url: '/pastes/' + paste._id,
+          params: {
+            id: paste._id
+          }
+        });
+        let res = httpMocks.createResponse();
+        sinon.stub(mongoose.Model, 'findById').yields({ name: 'Error' });
+        expect(pastes.getPasteById.bind(pastes, req, res)).to.throw('Error');
+      })
+      .catch((err) => {
+        expect(err).to.have.property('message').eql('expected [Function: bound getPasteById] to throw an error');
+      });
+    done();
   });
 });

@@ -9,6 +9,7 @@ let chai = require('chai');
 chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
+let sinon = require('sinon');
 
 describe('GET /pastes/:id', () => {
   // Make sure we have an empty dataset in the test DB
@@ -48,6 +49,7 @@ describe('GET /pastes/:id', () => {
   });
 
   it('should handle an error in mongoose query', (done) => {
+    sinon.stub(mongoose.Model, 'findById').yields({ name: 'MongoError'}, null);
     expect(pastes.getPasteById.bind(pastes, {})).to.throw('Cannot read property \'id\' of undefined');
     done();
   });

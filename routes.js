@@ -11,7 +11,7 @@ app.route('/pastes')
   .post(pastes.addPaste);
 app.route('/pastes/:id')
   .get(pastes.getPasteById)
-  .put(pastes.editPaste);
-  // .delete(pastes.delete)
+  .put(pastes.editPaste)
+  .delete(pastes.deletePaste);
 
 module.exports = app;

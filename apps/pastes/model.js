@@ -6,8 +6,9 @@ let PasteSchema = new Schema(
   {
     message: { type: String, required: true },
     tags: [String],
+    marked: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date }
+    updatedAt: Date
   }
 );
 

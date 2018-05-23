@@ -1,4 +1,3 @@
-let mongoose = require('mongoose');
 let Paste = require('./model');
 
 // Get all pastes from the DB
@@ -33,19 +32,34 @@ const addPaste = (req, res) => {
 
 // Edit a paste
 const editPaste = (req, res) => {
-  Paste.findById({ _id: req.params.id}, (err, paste) => {
+  Paste.findById({ _id: req.params.id }, (err, paste) => {
     Object.assign(paste, req.body).save((err, paste) => {
       res.json({ result: 'Paste updated', paste });
     });
   });
 }
 
-// Delete a paste
-console.log("Implement DELETE /pastes/:id here");
+// Delete a paste AKA mark it away, as we don't really delete them
+const deletePaste = (req, res) => {
+  Paste.findById({ _id: req.params.id }, (err, paste) => {
+    if (!paste) {
+      res.status(404).json({ result: 'Paste not found' });
+      return;
+    }
+    paste.marked = true;
+    paste.updatedAt = new Date();
+    paste.save((err) => {
+      err
+        ? res.status(400).json({ result: err })
+        : res.json({ result: 'Paste marked' });
+    });
+  });
+}
 
 module.exports = {
   getPastes,
   getPasteById,
   addPaste,
   editPaste,
+  deletePaste,
 }

@@ -2,10 +2,22 @@ let Paste = require('./model');
 
 // Get all pastes from the DB
 const getPastes = (req, res) => {
-  let query = Paste.find({});
+  // By default, we should only return items that are marked=false
+  let query = Paste.find({ marked: false });
+
+  // The query can be overridden with a GET parameter "marked"
+  // all = returns everything, marked=true = returns only marked items
+  if ('marked' in req.query) {
+    req.query.marked === 'all'
+      ? query = Paste.find({})
+      : ['true', 'false'].includes(req.query.marked)
+        ? query = Paste.find({ marked: req.query.marked == 'true' })
+        : (query = null, res.status(400).json([]))
+  }
+
   query.exec((err, pastes) => {
     const queryFailed = (err)
-      ? res.send(err)
+      ? res.status(500).send(err)
       : res.json(pastes);
   });
 }

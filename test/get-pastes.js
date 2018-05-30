@@ -10,6 +10,7 @@ chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
 let sinon = require('sinon');
+let sandbox = sinon.createSandbox();
 
 /**
  * With no values in the DB, we expect an empty result
@@ -50,9 +51,20 @@ describe('GET /pastes', () => {
   });
 
   it('should handle an error in mongoose', (done) => {
-    sinon.stub(mongoose.Query.prototype, 'exec').yields({ name: 'MongoError'}, null);
-    expect(pastes.getPastes.bind(pastes, 'foo')).to.throw('Cannot read property \'send\' of undefined');
-    done();
+    const pasteItem = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
+    pasteItem.save()
+      .then((paste) => {
+        sandbox.stub(mongoose.Query.prototype, 'exec').yields({ error: 'MongoError' });
+        chai.request(server)
+          .get('/pastes')
+          .end((err, res) => {
+            expect(res).to.have.status(500);
+            done();
+          });
+      })
+      .catch((err) => {
+        console.log('Should not go here', err);
+      });
   });
 
   after(done => {

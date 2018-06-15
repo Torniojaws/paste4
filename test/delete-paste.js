@@ -11,7 +11,6 @@ let expect = chai.expect;
 let sinon = require('sinon');
 let sandbox = sinon.createSandbox();
 let pastes = require('../apps/pastes/controller');
-let httpMocks = require('node-mocks-http');
 
 describe('DELETE /pastes/:id', () => {
 

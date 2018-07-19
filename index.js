@@ -1,4 +1,5 @@
 const app = require('express')();
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
 
@@ -15,6 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json' }));
+
+app.use(cors());
 
 // The routes must be defined AFTER bodyParser is configured
 app.use('/', routes);

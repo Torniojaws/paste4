@@ -9,13 +9,13 @@ const getPastes = (req, res) => {
   // all = returns everything, marked=true = returns only marked items
   if ('marked' in req.query) {
     req.query.marked === 'all'
-      ? query = Paste.find({}).sort({ createdAt: -1 }) // Newest first
+      ? query = Paste.find({})
       : ['true', 'false'].includes(req.query.marked)
-        ? query = Paste.find({ marked: req.query.marked == 'true' }).sort({ createdAt: -1 }) // Newest first
+        ? query = Paste.find({ marked: req.query.marked == 'true' })
         : (query = null, res.status(400).json([]));
   }
 
-  query.exec((err, pastes) => {
+  query.sort({ createdAt: 'desc' }).exec((err, pastes) => {
     const queryFailed = (err)
       ? res.status(500).send(err)
       : res.json(pastes);

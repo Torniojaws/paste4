@@ -45,9 +45,11 @@ const addPaste = (req, res) => {
 // Edit a paste
 const editPaste = (req, res) => {
   Paste.findById({ _id: req.params.id }, (err, paste) => {
-    Object.assign(paste, req.body).save((err, paste) => {
-      res.json({ result: 'Paste updated', paste });
-    });
+    const notFound = (err)
+      ? res.status(400).json({ result: `Could not find ID: ${req.params.id}`})
+      : Object.assign(paste, req.body).save((err, paste) => {
+          res.json({ result: 'Paste updated', paste });
+        });
   });
 };
 

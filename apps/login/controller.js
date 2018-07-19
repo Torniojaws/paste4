@@ -28,7 +28,7 @@ const isLoggedIn = (user) => {
 };
 
 const buildResponse = (login) => {
-  return getUser(login.username)
+  return getUser(login.username) // Returns an empty object on error {}
     .then((user) => {
       if (isLoggedIn(user)) return { success: true, message: 'Already logged in' };
       const tokens = generateToken(user);
@@ -39,15 +39,13 @@ const buildResponse = (login) => {
         refresh_token: tokens.refresh,
         expires_in: 3600,
       };
-    })
-    .catch(err => ({ success: false, message: 'Failed to retrieve user', err }));
+    });
 };
 
 const doLogin = (req, res) => {
   validate(req.body)
     ? buildResponse(req.body)
         .then(result => res.json(result))
-        .catch(err => res.json({ success: false, message: err}))
     : res.status(401).json({ success: false, message: 'Invalid login' });
 };
 

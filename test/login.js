@@ -130,9 +130,7 @@ describe('POST /login', () => {
       .send(user)
       .end((err, res) => {
         expect(err).to.be.null;
-        console.log(res.body);
-        //expect(res.body).to.have.property('success').eql(false);
-        //expect(res.body).to.have.property('message').eql('Failed to retrieve user');
+        expect(res.body).to.eql({});
         done();
       });
   });

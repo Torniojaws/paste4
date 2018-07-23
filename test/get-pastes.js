@@ -12,15 +12,17 @@ let expect = chai.expect;
 let sinon = require('sinon');
 let sandbox = sinon.createSandbox();
 
-/**
- * With no values in the DB, we expect an empty result
- */
 describe('GET /pastes', () => {
   // Make sure we have an empty dataset in the test DB
   beforeEach((done) => {
     Paste.remove({}, (err) => {
       done();
     });
+  });
+
+  after((done) => {
+    sandbox.restore();
+    done();
   });
 
   it('should return an empty result when no data exists', (done) => {
@@ -67,10 +69,4 @@ describe('GET /pastes', () => {
       });
   });
 
-  after(done => {
-    mongoose.models = {};
-    mongoose.modelSchemas = {};
-    mongoose.connection.close();
-    done();
-  });
 });

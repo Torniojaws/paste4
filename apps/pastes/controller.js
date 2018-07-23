@@ -12,15 +12,15 @@ const getPastes = (req, res) => {
       ? query = Paste.find({})
       : ['true', 'false'].includes(req.query.marked)
         ? query = Paste.find({ marked: req.query.marked == 'true' })
-        : (query = null, res.status(400).json([]))
+        : (query = null, res.status(400).json([]));
   }
 
-  query.exec((err, pastes) => {
+  query.sort({ createdAt: 'desc' }).exec((err, pastes) => {
     const queryFailed = (err)
       ? res.status(500).send(err)
       : res.json(pastes);
   });
-}
+};
 
 // Get a specific paste
 const getPasteById = (req, res) => {
@@ -30,7 +30,7 @@ const getPasteById = (req, res) => {
       ? res.send(err)
       : res.json(paste);
   });
-}
+};
 
 // Add a paste
 const addPaste = (req, res) => {
@@ -40,16 +40,18 @@ const addPaste = (req, res) => {
       ? res.status(400).json({ result: 'Missing \'message\' from payload' })
       : res.json({ result: 'New paste added', paste });
   });
-}
+};
 
 // Edit a paste
 const editPaste = (req, res) => {
   Paste.findById({ _id: req.params.id }, (err, paste) => {
-    Object.assign(paste, req.body).save((err, paste) => {
-      res.json({ result: 'Paste updated', paste });
-    });
+    const notFound = (err)
+      ? res.status(400).json({ result: `Could not find ID: ${req.params.id}`})
+      : Object.assign(paste, req.body).save((err, paste) => {
+          res.json({ result: 'Paste updated', paste });
+        });
   });
-}
+};
 
 // Delete a paste AKA mark it away, as we don't really delete them
 const deletePaste = (req, res) => {
@@ -66,7 +68,7 @@ const deletePaste = (req, res) => {
         : res.json({ result: 'Paste marked' });
     });
   });
-}
+};
 
 module.exports = {
   getPastes,
@@ -74,4 +76,4 @@ module.exports = {
   addPaste,
   editPaste,
   deletePaste,
-}
+};

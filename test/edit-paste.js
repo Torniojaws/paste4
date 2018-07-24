@@ -37,7 +37,23 @@ describe('PUT /pastes/:id', () => {
       })
       .catch((err) => {
         console.error("Something went very wrong");
-      })
+      });
+  });
+
+  it('should handle an invalid ID', (done) => {
+    const updated = {
+      message: "Failing case",
+      tags: ["Testing", "Updating"]
+    };
+
+    chai.request(server)
+      .put('/pastes/undefined')
+      .send(updated)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property('result').eql('Could not find ID: undefined');
+        done();
+      });
   });
 
 });

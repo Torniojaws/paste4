@@ -49,8 +49,23 @@ const doLogin = (req, res) => {
     : res.status(401).json({ success: false, message: 'Invalid login' });
 };
 
+// TODO: use Joi
+const validateLogout = (payload) => {
+  return (payload.username.length > 0 && payload.access_token.length > 0);
+};
+
+const deleteToken = (username) => {
+  return Token.remove({ username: username }).exec();
+};
+
+const logout = (req, res) => {
+  validateLogout(req.body)
+    ? deleteToken(req.body.username).then(res.status(200).json({ success: true, message: 'Logged out' }))
+    : res.status(400).json({ success: false, message: 'Invalid payload' });
+};
+
 module.exports = {
   doLogin,
   generateToken,
-  // logout
+  logout
 };

@@ -18,9 +18,7 @@ app.route('/pastes/:id')
 // Login / logout
 app.route('/login')
   .post(login.doLogin);
-/*
 app.route('/logout')
   .post(login.logout);
-*/
 
 module.exports = app;

@@ -1,9 +1,9 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Paste = require('../apps/pastes/model');
-let server = require('../index');
-let pastes = require('../apps/pastes/controller');
+let Paste = require('../../apps/pastes/model');
+let server = require('../../index');
+let pastes = require('../../apps/pastes/controller');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
@@ -45,7 +45,7 @@ describe('GET /pastes/:id', () => {
           });
       })
       .catch((err) => {
-        console.error("Something went very wrong");
+        console.error('Something went very wrong');
       });
   });
 

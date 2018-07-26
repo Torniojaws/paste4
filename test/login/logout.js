@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Token = require('../apps/login/model');
-let server = require('../index');
+let Token = require('../../apps/login/model');
+let server = require('../../index');
 
 let chai = require('chai');
 chai.use(require('chai-http'));

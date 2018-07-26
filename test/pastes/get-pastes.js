@@ -1,9 +1,9 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Paste = require('../apps/pastes/model');
-let server = require('../index');
-let pastes = require('../apps/pastes/controller');
+let Paste = require('../../apps/pastes/model');
+let server = require('../../index');
+let pastes = require('../../apps/pastes/controller');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
@@ -37,8 +37,8 @@ describe('GET /pastes', () => {
 
   it('should return results when data exists', (done) => {
     // Add two entries to Pastes
-    const paste1 = new Paste({ message: "Test 1", tags: ["unit", "test"] });
-    const paste2 = new Paste({ message: "Test 2", tags: ["unit", "test"] });
+    const paste1 = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
+    const paste2 = new Paste({ message: 'Test 2', tags: ['unit', 'test'] });
     paste1.save();
     paste2.save();
 

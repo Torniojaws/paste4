@@ -159,9 +159,12 @@ describe('GET /pastes?tag=value', () => {
   });
 
   it('should return all pastes that match the tag', (done) => {
-    const paste1 = new Paste({ message: 'Test 1', tags: ['unit', 'test'], marked: false });
-    const paste2 = new Paste({ message: 'Test 2', tags: ['unit', 'stuff'], marked: false });
-    const paste3 = new Paste({ message: 'Test 3', tags: ['more', 'stuff'], marked: true });
+    const paste1 = new Paste({
+      message: 'Test 1', tags: ['unit', 'test'], marked: false, createdAt: new Date("2018-01-01 10:00:00") });
+    const paste2 = new Paste({
+      message: 'Test 2', tags: ['unit', 'stuff'], marked: false, createdAt: new Date("2018-02-02 10:00:00") });
+    const paste3 = new Paste({
+      message: 'Test 3', tags: ['more', 'stuff'], marked: true, createdAt: new Date("2018-03-03 10:00:00") });
     paste1.save();
     paste2.save();
     paste3.save();
@@ -172,8 +175,9 @@ describe('GET /pastes?tag=value', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body.length).to.eql(2);
-        expect(res.body[0]).to.have.property('message').eql('Test 2');
-        expect(res.body[1]).to.have.property('message').eql('Test 3');
+        // They are returned in descending order by created date
+        expect(res.body[0]).to.have.property('message').eql('Test 3');
+        expect(res.body[1]).to.have.property('message').eql('Test 2');
         done();
       });
   });

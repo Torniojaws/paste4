@@ -4,7 +4,7 @@
   "description": "Paste tool for personal notes",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=dev && node index.js",
+    "start": "export NODE_ENV=dev && node index.js",
     "test": "eslint . && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/* -- -R spec --timeout 10000 --exit"
   },
   "repository": {

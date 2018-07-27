@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Token = require('../apps/login/model');
-let server = require('../index');
+let Token = require('../../apps/login/model');
+let server = require('../../index');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
@@ -15,7 +15,7 @@ let sinon = require('sinon');
 let sandbox = sinon.createSandbox();
 
 // Util tests
-const { generateToken } = require('../apps/login/controller');
+const { generateToken, validateLogout } = require('../../apps/login/controller');
 
 describe('POST /login', () => {
 
@@ -118,6 +118,24 @@ describe('POST /login', () => {
       });
   });
 
+  it('returns 401 for a payload with null values', (done) => {
+    const user = {
+      username: null,
+      access_token: null
+    };
+    chai.request(server)
+      .post('/login')
+      .send(user)
+      .end((err, res) => {
+        expect(err).to.be.null;
+        expect(res).to.have.status(401);
+        expect(res.body.length).to.not.eql(0);
+        expect(res.body).to.have.property('success').eql(false);
+        expect(res.body).to.have.property('message').eql('Invalid login');
+        done();
+      });
+  });
+
   it('handles a dropped DB connection', (done) => {
     const user = {
       username: 'test',
@@ -157,6 +175,23 @@ describe('Util functions for /login', () => {
       const tokens = generateToken(token);
       expect(tokens).to.have.property('refresh').to.be.a.uuid('v4');
       expect(tokens).to.have.property('refresh').eql(validToken);
+      done();
+    });
+  });
+
+  describe('#validateLogout', () => {
+    it('returns true for valid values', (done) => {
+      expect(validateLogout({ username: 'test', access_token: 'test' })).to.eql(true);
+      done();
+    });
+
+    it('returns false with a null value', (done) => {
+      expect(validateLogout({ username: null, access_token: 'test' })).to.eql(false);
+      done();
+    });
+
+    it('returns false with empty strings', (done) => {
+      expect(validateLogout({ username: 'test', access_token: '' })).to.eql(false);
       done();
     });
   });

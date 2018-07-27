@@ -51,6 +51,7 @@ const doLogin = (req, res) => {
 
 // TODO: use Joi
 const validateLogout = (payload) => {
+  if (payload.username === null || payload.access_token === null) return false;
   return (payload.username.length > 0 && payload.access_token.length > 0);
 };
 
@@ -67,5 +68,6 @@ const logout = (req, res) => {
 module.exports = {
   doLogin,
   generateToken,
-  logout
+  logout,
+  validateLogout,
 };

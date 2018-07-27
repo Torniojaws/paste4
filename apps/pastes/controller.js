@@ -15,6 +15,11 @@ const getPastes = (req, res) => {
         : (query = null, res.status(400).json([]));
   }
 
+  // You can also search by tag
+  if ('tag' in req.query) {
+    query = Paste.find({ tags: { $in: req.query.tag } });
+  }
+
   query.sort({ createdAt: 'desc' }).exec((err, pastes) => {
     const queryFailed = (err)
       ? res.status(500).send(err)

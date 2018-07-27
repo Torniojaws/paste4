@@ -1,8 +1,8 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Paste = require('../apps/pastes/model');
-let server = require('../index');
+let Paste = require('../../apps/pastes/model');
+let server = require('../../index');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
@@ -10,7 +10,7 @@ chai.use(require('chai-date-string'));
 let expect = chai.expect;
 let sinon = require('sinon');
 let sandbox = sinon.createSandbox();
-let pastes = require('../apps/pastes/controller');
+let pastes = require('../../apps/pastes/controller');
 
 describe('DELETE /pastes/:id', () => {
 
@@ -35,12 +35,12 @@ describe('DELETE /pastes/:id', () => {
           .end((err, res) => {
             expect(err).to.be.null;
             expect(res).to.have.status(200);
-            // expect(res.body).to.have.property('result').eql('Paste marked');
+            expect(res.body).to.have.property('result').eql('Paste marked');
             done();
           });
       })
       .catch((err) => {
-        console.error("Something went very wrong");
+        console.error('Something went very wrong');
         done();
       });
   });

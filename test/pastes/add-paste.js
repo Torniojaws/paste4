@@ -1,17 +1,14 @@
 process.env.NODE_ENV = 'test';
 
 let mongoose = require('mongoose');
-let Paste = require('../apps/pastes/model');
-let server = require('../index');
+let Paste = require('../../apps/pastes/model');
+let server = require('../../index');
 
 let chai = require('chai');
 chai.use(require('chai-http'));
 chai.use(require('chai-date-string'));
 let expect = chai.expect;
 
-/**
- * Add a valid paste
- */
 describe('POST /pastes', () => {
   // Make sure we have an empty dataset in the test DB
   beforeEach((done) => {
@@ -22,8 +19,8 @@ describe('POST /pastes', () => {
 
   it('should add a new paste', (done) => {
     const paste = {
-      message: "We are live",
-      tags: ["Testing", "Posting"]
+      message: 'We are live',
+      tags: ['Testing', 'Posting']
     };
     chai.request(server)
       .post('/pastes')
@@ -38,7 +35,7 @@ describe('POST /pastes', () => {
 
   it('should reject a paste without a message', (done) => {
     const paste = {
-      tags: ["Testing", "Posting"]
+      tags: ['Testing', 'Posting']
     };
     chai.request(server)
       .post('/pastes')

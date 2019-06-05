@@ -8,7 +8,7 @@ const config = require('config');
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect(config.DBHost);
+mongoose.connect(config.DBHost, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

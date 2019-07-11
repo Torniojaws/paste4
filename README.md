@@ -27,6 +27,11 @@ Version 4 of the copypaste tool for personal notes, etc.
 1. Once the deployment is ready, start the project with `npm start`
 1. Then browse to: http://localhost:3000/
 
+# Notes
+
+Do not update `mongoose` to version between 5.5.0 and 5.6.4. It breaks in Travis CI.
+Version 5.4.23 is the newest one that works.
+
 ## Tests
 
 For testing, Mocha and Chai are used. You can run the tests with `npm test`

@@ -39,19 +39,6 @@ describe('GET /pastes?marked=all', () => {
       .get('/pastes?marked=all')
       .end((err, res) => {
         expect(res).to.have.status(200);
-        expect(res.body).to.deep.equal([{
-          message: 'Test 1',
-          tags: ['unit', 'test'],
-          marked: false,
-        }, {
-          message: 'Test 2',
-          tags: ['unit', 'test'],
-          marked: false,
-        }, {
-          message: 'Marked',
-          tags: ['unit', 'test'],
-          marked: true,
-        }]);
         expect(res.body.length).to.eql(3);
         done();
       });

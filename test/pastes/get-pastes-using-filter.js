@@ -31,17 +31,16 @@ describe('GET /pastes?marked=all', () => {
     const paste1 = new Paste({ message: 'Test 1', tags: ['unit', 'test'] });
     const paste2 = new Paste({ message: 'Test 2', tags: ['unit', 'test'] });
     const paste3 = new Paste({ message: 'Marked', tags: ['unit', 'test'], marked: true });
-    paste1.save();
-    paste2.save();
-    paste3.save();
-
-    chai.request(server)
-      .get('/pastes?marked=all')
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.length).to.eql(3);
-        done();
-      });
+    
+    Paste.create([paste1, paste2, paste3], () => {
+      chai.request(server)
+        .get('/pastes?marked=all')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.length).to.eql(3);
+          done();
+        });
+    });
   });
 
 });
